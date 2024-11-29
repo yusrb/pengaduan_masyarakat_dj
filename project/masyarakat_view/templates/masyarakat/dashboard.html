@@ -1,0 +1,28 @@
+{% include 'base.html' %}
+
+{% block contents %}
+<form action="{% url 'auth:user_logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form>
+
+<a href="{% url 'masyarakat:user_dashboard' %}">Dashboard</a>
+<a href="{% url 'masyarakat:pengaduan_history' %}">Riwayat Laporan</a>
+
+<h1>Dashboard User</h1>
+
+<p>Hallo {{request.user}}</p>
+
+{% for jenis_lap in jenis_laps %}
+<a href="{% url 'masyarakat:pengaduan_create' jenis_lap.id %}">{{jenis_lap.jenis}}</a>
+{% endfor %}
+
+<h1>Telepon Darurat</h1>
+<p>Hubungi nomor dibawah ini jika keadaan sedang darurat</p>
+
+{% for dinas in dinas_all %}
+<p>{{dinas.nama}}</p>
+<p>{{dinas.telp}}</p>
+{% endfor %}
+{% endblock contents %}
+

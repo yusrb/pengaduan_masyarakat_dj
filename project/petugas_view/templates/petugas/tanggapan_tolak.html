@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block contents %}
+  {% include 'snippets/nav_admin.html' %}
+  
+  <h1>Hal Tolak</h1>
+  <h1>Berikan Tanggapan untuk Pengaduan {{ pengaduan.user.username }}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Kirim Tanggapan</button>
+  </form>
+
+  <h2>Detail Pengaduan</h2>
+  <p><strong>Isi Aduan:</strong> {{ pengaduan.isi_aduan }}</p>
+  <p><strong>Status:</strong> {{ pengaduan.get_status_display }}</p>
+  <p><strong>Pengadu:</strong> {{ pengaduan.user.username }}</p>
+  <p><strong>Tanggal Pengaduan:</strong> {{ pengaduan.tgl_pengaduan }}</p>
+  <p><strong>Instansi:</strong> {{ pengaduan.dinas.nama }}</p>
+  <p><strong>Jenis Laporan:</strong> {{ pengaduan.jenis_laporan }}</p>
+{% endblock %}

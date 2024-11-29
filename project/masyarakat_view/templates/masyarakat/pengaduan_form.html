@@ -1,0 +1,15 @@
+{% include 'base.html' %}
+
+{% block contents %}
+<h1>Create Pengaduan</h1>
+
+<p>Jenis Laporan: {{ jenis_laporan.jenis }}</p>
+
+<form action="" method="post" enctype='multipart/form-data'>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Create</button>
+</form>
+
+<a href="{% url 'masyarakat:user_dashboard' %}">Kembali</a>
+{% endblock contents %}

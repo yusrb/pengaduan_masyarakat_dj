@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block contents %}
+{% include 'snippets/nav_admin.html' %}
+
+<h1>{{ judul }}</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Isi Aduan</th>
+      <th>Status</th>
+      <th>Pengadu</th>
+      <th>Tanggal Pengaduan</th>
+      <th>Instansi</th>
+      <th>Jenis Laporan</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pengaduan in pengaduans %}
+    <img src="{{pengaduan.foto.url}}" alt="">
+    <tr>
+      <td>{{ pengaduan.isi_aduan }}</td>
+      <td>{{ pengaduan.get_status_display }}</td>
+      <td>{{ pengaduan.user.username }}</td>
+      <td>{{ pengaduan.tgl_pengaduan }}</td>
+      <td>{{ pengaduan.dinas.nama }}</td>
+      <td>{{ pengaduan.jenis_laporan }}</td>
+      <td>
+        <a
+          href="{% url 'petugas:tanggapan_belum_terjawab' pengaduan_id=pengaduan.id %}"
+          >Berikan Tanggapan</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% include 'base.html' %}
+{% block contents %}
+<form action="{% url 'auth:user_logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form>
+
+<a href="{% url 'masyarakat:user_dashboard' %}">Dashboard</a>
+<a href="{% url 'masyarakat:pengaduan_history' %}">Riwayat Laporan</a>
+
+<h1>History Pengaduan</h1>
+
+{% for pengaduan in pengaduans %}
+<form action="{% url 'masyarakat:pengaduan_delete' pengaduan.pk %}" method="post" id="delete-form-{{ pengaduan.pk }}">
+  {% csrf_token %}
+  <button type="submit" onclick="return confirmDelete({{ pengaduan.pk }})">X</button>
+</form>
+
+<img
+  class="w-60 h-60"
+  src="{{ pengaduan.foto.url }}"
+  alt="{{ pengaduan.isi_aduan|truncatechars:30 }}"
+/>
+<p>Tanggal: {{ pengaduan.tgl_pengaduan }}</p>
+<p>Jenis Laporan: {{ pengaduan.jenis_laporan }}</p>
+<p>Isi Laporan: {{ pengaduan.isi_aduan }}</p>
+
+{% if pengaduan.tanggapan_set.exists %}
+    <ul>
+    {% for tanggapan in pengaduan.tanggapan_set.all %}
+        <li>{{ tanggapan.tanggapan }} - {{ tanggapan.petugas.username }} ({{ tanggapan.tgl_tanggapan }})</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Belum ada tanggapan.</p>
+{% endif %}
+
+<p>Status: {{ pengaduan.status }}</p>
+
+{% endfor %}
+
+<script>
+  function confirmDelete(pengaduanId) {
+    return confirm("Apakah Anda yakin ingin menghapus pengaduan ini?");
+  }
+</script>
+{% endblock contents %}

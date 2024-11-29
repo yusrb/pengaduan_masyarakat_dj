@@ -1,0 +1,27 @@
+{% include 'base.html' %}
+
+{% block contents %}
+<h1>Login</h1>
+
+<!-- Menampilkan pesan error jika ada -->
+{% if messages %}
+  <div class="alert alert-danger">
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<form action="" method="post">
+  {% csrf_token %}
+  
+  <!-- Menampilkan form input -->
+  {{ form.as_p }}
+
+  <button type="submit">Login Petugas</button>
+</form>
+
+<p>Belum punya akun? <a href="{% url 'auth:petugas_register' %}">Register</a></p>
+{% endblock contents %}

@@ -1,0 +1,12 @@
+{% include 'base.html' %} {% block contents %}
+<h1>Login</h1>
+
+<form action="" method="post">
+  {% csrf_token %}
+  {{form.as_p}}
+
+  <button type="submit">Login</button>
+</form>
+
+<p>Belum punya akun? <a href="{% url 'auth:user_register' %}">Register</a></p>
+{% endblock contents %}
