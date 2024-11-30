@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'tailwind',
     'theme',
+    'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,7 @@ INSTALLED_APPS = [
 AUTHENTICATION_BACKENDS = [
     'petugas_view.backends.PetugasBackend',
     'masyarakat_view.backends.MasyarakatBackend',
-    'django.contrib.auth.backends.ModelBackend',  # Sebagai fallback
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'project.urls'

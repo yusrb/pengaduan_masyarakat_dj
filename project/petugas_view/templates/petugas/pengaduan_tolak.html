@@ -1,37 +1,35 @@
-{% extends "base.html" %} {% block contents %} 
+{% extends "base.html" %}
+{% block contents %}
 {% include 'snippets/nav_admin.html' %}
 
-<h1>{{ judul }}</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Isi Aduan</th>
-      <th>Status</th>
-      <th>Pengadu</th>
-      <th>Tanggal Pengaduan</th>
-      <th>Instansi</th>
-      <th>Jenis Laporan</th>
-      <th>Aksi</th>
-    </tr>
-  </thead>
-  <tbody>
+<div class="container mx-auto p-6">
+  
+  <h1 class="text-3xl font-semibold text-gray-900 text-center mb-8">{{ judul }}</h1>
+  <div class="space-y-6">
     {% for pengaduan in pengaduans %}
-    <img src="{{pengaduan.foto.url}}" alt="">
-    <tr>
-      <td>{{ pengaduan.isi_aduan }}</td>
-      <td>{{ pengaduan.get_status_display }}</td>
-      <td>{{ pengaduan.user.username }}</td>
-      <td>{{ pengaduan.tgl_pengaduan }}</td>
-      <td>{{ pengaduan.dinas.nama }}</td>
-      <td>{{ pengaduan.jenis_laporan }}</td>
-      <td>
-        <a href="{% url 'petugas:tanggapan_tolak' pengaduan_id=pengaduan.id %}"
-          >Validasi Kembali</a
-        >
-      </td>
-    </tr>
+    <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row gap-6 mb-6">
+      <div class="w-full md:w-1/4">
+        <img src="{{ pengaduan.foto.url }}" alt="Foto Aduan" class="w-full h-48 object-cover rounded-md shadow-sm">
+      </div>
+
+      <div class="flex-1">
+        <p class="text-xl font-semibold text-gray-900 mb-2">{{ pengaduan.isi_aduan|safe }}</p>
+        <p class="text-gray-700 mb-1"><strong>Status:</strong> {{ pengaduan.get_status_display }}</p>
+        <p class="text-gray-700 mb-1"><strong>Pengadu:</strong> {{ pengaduan.user.username }}</p>
+        <p class="text-gray-700 mb-1"><strong>Tanggal Pengaduan:</strong> {{ pengaduan.tgl_pengaduan }}</p>
+        <p class="text-gray-700 mb-1"><strong>Instansi:</strong> {{ pengaduan.dinas.nama }}</p>
+        <p class="text-gray-700 mb-4"><strong>Jenis Laporan:</strong> {{ pengaduan.jenis_laporan }}</p>
+
+        <div class="flex justify-end">
+          <a href="{% url 'petugas:tanggapan_tolak' pengaduan_id=pengaduan.id %}"
+             class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out">
+            Validasi Kembali
+          </a>
+        </div>
+      </div>
+    </div>
     {% endfor %}
-  </tbody>
-</table>
+  </div>
+</div>
+
 {% endblock %}

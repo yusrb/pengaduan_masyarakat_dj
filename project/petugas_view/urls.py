@@ -11,7 +11,9 @@ from .views import (
     TanggapanTolakView,
     TanggapanSelesaiCreateView,
 
-    buat_pengaduan_dokumen
+    LogAktivitasPetugasListView,
+
+    buat_pengaduan_dokumen,
 )
 
 urlpatterns = [
@@ -25,6 +27,8 @@ urlpatterns = [
     path('tanggapan/selesai/<int:pengaduan_id>/', TanggapanSelesaiCreateView.as_view(), name='tanggapan_selesai'),
     path('pengaduan/tolak/', PengaduanTolakListView.as_view(), name='pengaduan_tolak_view'),
     path('pengaduan/tanggapan/tolak/<int:pengaduan_id>/', TanggapanTolakView.as_view(), name='tanggapan_tolak'),
+
+    path('log_aktivitas/' , LogAktivitasPetugasListView.as_view(), name="log_aktivitas_view"),
 
     path('pengaduan/generate_pdf/', buat_pengaduan_dokumen, name='buat_pengaduan_dokumen'),
 ]

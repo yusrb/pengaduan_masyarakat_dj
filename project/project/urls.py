@@ -9,6 +9,7 @@ urlpatterns = [
     path('' , include(('masyarakat_view.urls', 'masyarakat_view'), namespace="masyarakat")),
     path('petugas/', include(('petugas_view.urls', 'petugas_view'), namespace="petugas")),
     path('dinas/', include(('petugas_view.urls', 'petugas_view'), namespace="dinas")),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 if settings.DEBUG:

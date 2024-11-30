@@ -37,7 +37,7 @@ class TanggapanBelumTerjawabCreateView(CreateView):
     template_name = 'petugas/tanggapan_form.html'
 
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated and self.request.user.level == 'petugas':
+        if self.request.user.is_authenticated and self.request.user.level == 'petugas' or self.request.user.level == 'admin':
             pengaduan_id = self.kwargs.get('pengaduan_id')
             pengaduan = get_object_or_404(Pengaduan, pk=pengaduan_id)
 
@@ -91,11 +91,20 @@ class PengaduanDesposisiListView(ListView):
 
 class TanggapanDesposisiCreateView(CreateView):
     model = Tanggapan
-    fields = ['tanggapan']
+    form_class = TanggapanForm
     template_name = 'petugas/tanggapan_form.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['judul'] = "Desposisi Form Page"
+        pengaduan_id = self.kwargs['pengaduan_id']
+        pengaduan = get_object_or_404(Pengaduan, id=pengaduan_id)
+
+        context['pengaduan'] = pengaduan
+        return context
+
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated and self.request.user.level == 'petugas':
+        if self.request.user.is_authenticated and self.request.user.level == 'petugas' or self.request.user.level == 'admin':
             pengaduan_id = self.kwargs.get('pengaduan_id')
             pengaduan = get_object_or_404(Pengaduan, pk=pengaduan_id)
 
@@ -149,11 +158,21 @@ class PengaduanProsesListView(ListView):
 
 class TanggapanProsesCreateView(CreateView):
     model = Tanggapan
-    fields = ['tanggapan']
+    form_class = TanggapanForm
     template_name = 'petugas/tanggapan_form.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["judul"] = "Tanggapan Proses Page"
+        pengaduan_id = self.kwargs['pengaduan_id']
+        pengaduan = get_object_or_404(Pengaduan, id=pengaduan_id)
+
+        context['pengaduan'] = pengaduan
+        return context
+    
+
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated and self.request.user.level == 'petugas':
+        if self.request.user.is_authenticated and self.request.user.level == 'petugas' or self.request.user.level == 'admin':
             pengaduan_id = self.kwargs.get('pengaduan_id')
             pengaduan = get_object_or_404(Pengaduan, pk=pengaduan_id)
 
@@ -232,6 +251,16 @@ class TanggapanTolakView(UpdateView):
     context_object_name = 'pengaduan'
     form_class = TanggapanForm
 
+    def get(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('auth:petugas_login')
+
+        user = self.request.user
+        if isinstance(user, Masyarakat):
+            return redirect('masyarakat:user_dashboard')
+
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["judul"] = "Validasi Kembali Page"
@@ -250,8 +279,18 @@ class TanggapanTolakView(UpdateView):
 
 class TanggapanSelesaiCreateView(CreateView):
     model = Tanggapan
-    fields = ['tanggapan']
+    form_class = TanggapanForm
     template_name = 'petugas/tanggapan_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["judul"] = "Tanggapan Tolak Page"
+        pengaduan_id = self.kwargs['pengaduan_id']
+        pengaduan = get_object_or_404(Pengaduan, id=pengaduan_id)
+
+        context['pengaduan'] = pengaduan
+        return context
+    
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_authenticated and self.request.user.level == 'petugas' or self.request.user.level == 'admin':
@@ -293,3 +332,23 @@ def buat_pengaduan_dokumen(request):
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="laporan_pengaduan_selesai.pdf"'
     return response
+
+class LogAktivitasPetugasListView(ListView):
+    model = Log_Aktivitas
+    template_name = "petugas/log_aktivatas_petugas.html"
+    context_object_name = "log_aktivitas"
+
+    def get(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('auth:petugas_login')
+
+        user = self.request.user
+        if isinstance(user, Masyarakat):
+            return redirect('masyarakat:user_dashboard')
+
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["judul"] = "Log Aktivitas Petugas"
+        return context

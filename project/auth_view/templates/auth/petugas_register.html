@@ -1,14 +1,101 @@
-{% include 'base.html' %}
+{% extends 'base.html' %}
 
 {% block contents %}
-<h1>Register Petugas Page</h1>
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl font-semibold text-center text-gray-900 mb-8">Register Petugas</h1>
 
-<form action="" method="post">
-  {% csrf_token %}
-  {{form.as_p}}
+    <form action="" method="post" class="bg-white p-7 py-6 pt-1 rounded-lg shadow-md max-w-md mx-auto space-y-6">
+      {% csrf_token %}
+      
+      <div class="space-y-4">
 
-  <button type="submit">Register</button>
-</form>
+        <!-- Nama Field -->
+        <div>
+          <label for="id_nama" class="block text-lg font-medium text-gray-700">Nama</label>
+          {{ form.nama }}
+          {% if form.nama.errors %}
+            <div class="text-sm text-red-600 mt-1">
+              {% for error in form.nama.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
 
-<p>Sudah punya Akun? <a href="{% url 'auth:petugas_register' %}">Login</a></p>
-{% endblock contents %}
+        <!-- Username Field -->
+        <div>
+          <label for="id_username" class="block text-lg font-medium text-gray-700">Username</label>
+          {{ form.username }}
+          {% if form.username.errors %}
+            <div class="text-sm text-red-600 mt-1">
+              {% for error in form.username.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Telepon Field -->
+        <div>
+          <label for="id_telp" class="block text-lg font-medium text-gray-700">Telepon</label>
+          {{ form.telp }}
+          {% if form.telp.errors %}
+            <div class="text-sm text-red-600 mt-1">
+              {% for error in form.telp.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Dinas Field -->
+        <div>
+          <label for="id_dinas" class="block text-lg font-medium text-gray-700">Instansi</label>
+          {{ form.dinas }}
+          {% if form.dinas.errors %}
+            <div class="text-sm text-red-600 mt-1">
+              {% for error in form.dinas.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          <label for="id_password1" class="block text-lg font-medium text-gray-700">Password</label>
+          {{ form.password1 }}
+          {% if form.password1.errors %}
+            <div class="text-sm text-red-600 mt-1">
+              {% for error in form.password1.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div>
+          <label for="id_password2" class="block text-lg font-medium text-gray-700">Confirm Password</label>
+          {{ form.password2 }}
+          {% if form.password2.errors %}
+            <div class="text-sm text-red-600 mt-1">
+              {% for error in form.password2.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+
+      <button type="submit" class="w-full bg-lime-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-lime-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-opacity-50">
+        Register Petugas
+      </button>
+    </form>
+
+    <p class="text-center mt-4 text-gray-600">
+      Sudah punya akun? <a href="{% url 'auth:petugas_login' %}" class="text-lime-600 hover:text-lime-700">Login</a>
+    </p>
+  </div>
+{% endblock %}

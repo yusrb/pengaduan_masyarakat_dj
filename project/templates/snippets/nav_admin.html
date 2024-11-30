@@ -1,52 +1,33 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'petugas:petugas_dashboard' %}"
-    >Petugas Dashboard</a
-  >
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarNav"
-    aria-controls="navbarNav"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'petugas:petugas_dashboard' %}"
-          >Belum Terjawab</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'petugas:pengaduan_desposisi_view' %}"
-          >Desposisi</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'petugas:pengaduan_proses_view' %}"
-          >Proses</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'petugas:pengaduan_selesai_view' %}"
-          >Selesai</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'petugas:pengaduan_tolak_view' %}"
-          >Tolak</a
-        >
-      </li>
-      <li class="nav-item">
-        <form action="{% url 'auth:petugas_logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Logout</button>
-        </form>
-      </li>
-    </ul>
+<nav class="bg-gradient-to-br from-lime-200 shadow-md p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <a href="{% url 'petugas:petugas_dashboard' %}" class="text-3xl font-bold text-gray-800 hover:text-gray-900 transition-all duration-300">
+      Petugas Dashboard
+    </a>
+
+    <div class="hidden md:flex space-x-6 items-center">
+      <a href="{% url 'petugas:petugas_dashboard' %}" class="text-gray-700 hover:text-gray-900 transition duration-300 ease-in-out">Belum Terjawab</a>
+      <a href="{% url 'petugas:pengaduan_desposisi_view' %}" class="text-gray-700 hover:text-gray-900 transition duration-300 ease-in-out">Desposisi</a>
+      <a href="{% url 'petugas:pengaduan_proses_view' %}" class="text-gray-700 hover:text-gray-900 transition duration-300 ease-in-out">Proses</a>
+      <a href="{% url 'petugas:pengaduan_selesai_view' %}" class="text-gray-700 hover:text-gray-900 transition duration-300 ease-in-out">Selesai</a>
+      <a href="{% url 'petugas:pengaduan_tolak_view' %}" class="text-gray-700 hover:text-gray-900 transition duration-300 ease-in-out">Tolak</a>
+
+      {% if request.user.level == 'admin' %}
+      <a href="{% url 'petugas:log_aktivitas_view' %}" class="text-gray-700 hover:text-gray-900 transition duration-300 ease-in-out">Log Aktivitas</a>
+      {% endif %}
+      
+      <form action="{% url 'auth:petugas_logout' %}" method="post" class="inline">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 text-white px-6 py-2 rounded-full shadow-md hover:bg-red-600 transition duration-300 ease-in-out">
+          Logout
+        </button>
+      </form>
+    </div>
+
+    <div class="md:hidden flex items-center space-x-2">
+      <button class="text-gray-700 hover:text-gray-900 transition duration-300 ease-in-out">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
   </div>
 </nav>

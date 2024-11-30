@@ -2,22 +2,32 @@
 
 {% block contents %}
   {% include 'snippets/nav_admin.html' %}
-  
-  <h1>Hal Tolak</h1>
-  <h1>Berikan Tanggapan untuk Pengaduan {{ pengaduan.user.username }}</h1>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Kirim Tanggapan</button>
-  </form>
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl font-semibold text-gray-900 text-center mb-8">Konfirmasi Kembali</h1>
+    <h2 class="text-2xl font-medium text-gray-800 mb-4">Berikan Tanggapan untuk Pengaduan <span class="font-semibold"><br>{{ pengaduan.isi_aduan }}</span></h2>
 
-  <h2>Detail Pengaduan</h2>
-  <p><strong>Isi Aduan:</strong> {{ pengaduan.isi_aduan }}</p>
-  <p><strong>Status:</strong> {{ pengaduan.get_status_display }}</p>
-  <p><strong>Pengadu:</strong> {{ pengaduan.user.username }}</p>
-  <p><strong>Tanggal Pengaduan:</strong> {{ pengaduan.tgl_pengaduan }}</p>
-  <p><strong>Instansi:</strong> {{ pengaduan.dinas.nama }}</p>
-  <p><strong>Jenis Laporan:</strong> {{ pengaduan.jenis_laporan }}</p>
-  <p><strong>Alasan tidak valid:</strong> {{ pengaduan.tanggapan.tanggapan }}</p>
+    <form method="post" class="bg-lime-200 shadow-lg rounded-lg p-8 mb-8 space-y-4">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="w-full bg-lime-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-lime-700 transition duration-300 ease-in-out">
+        Kirim Tanggapan
+      </button>
+    </form>
+
+    <div class="bg-lime-200 shadow-lg rounded-lg p-8 space-y-4">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Detail Pengaduan</h3>
+      <div class="space-y-2">
+        <p><strong class="text-gray-700">Isi Aduan:</strong> <span class="text-gray-600">{{ pengaduan.isi_aduan }}</span></p>
+        <p><strong class="text-gray-700">Status:</strong> <span class="text-gray-600">{{ pengaduan.get_status_display }}</span></p>
+        <p><strong class="text-gray-700">Pengadu:</strong> <span class="text-gray-600">{{ pengaduan.user.username }}</span></p>
+        <p><strong class="text-gray-700">Tanggal Pengaduan:</strong> <span class="text-gray-600">{{ pengaduan.tgl_pengaduan }}</span></p>
+        <p><strong class="text-gray-700">Instansi:</strong> <span class="text-gray-600">{{ pengaduan.dinas.nama }}</span></p>
+        <p><strong class="text-gray-700">Jenis Laporan:</strong> <span class="text-gray-600">{{ pengaduan.jenis_laporan }}</span></p>
+        <p><strong class="text-gray-700">Alasan Tidak Valid:</strong> <span class="text-gray-600">{{ pengaduan.tanggapan.tanggapan }}</span></p>
+      </div>
+    </div>
+
+  </div>
+
 {% endblock %}

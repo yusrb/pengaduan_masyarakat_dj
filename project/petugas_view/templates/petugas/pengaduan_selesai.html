@@ -1,47 +1,49 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% block contents %}
 {% include 'snippets/nav_admin.html' %}
 
-<h1>{{ judul }}</h1>
+<!-- Heading Section -->
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-semibold text-gray-900 text-center mb-8">{{ judul }}</h1>
 
-{% if request.user.level == 'admin' %}
-<div>
-  <a href="{% url 'petugas:buat_pengaduan_dokumen' %}">
-    Buat Dokumen PDF
-</a>
-</div>
-{% endif %}
+  {% if request.user.level == 'admin' %}
+  <div class="mb-6 text-center">
+    <a href="{% url 'petugas:buat_pengaduan_dokumen' %}" 
+       class="bg-lime-600 text-white px-8 py-3 rounded-md hover:bg-gray-900 transition duration-300 ease-in-out">
+      Buat Dokumen PDF
+    </a>
+  </div>
+  {% endif %}
 
-<table>
-  <thead>
-    <tr>
-      <th>Isi Aduan</th>
-      <th>Status</th>
-      <th>Pengadu</th>
-      <th>Tanggal Pengaduan</th>
-      <th>Instansi</th>
-      <th>Jenis Laporan</th>
-      <th>Aksi</th>
-    </tr>
-  </thead>
-  <tbody>
+  <!-- Pengaduan List -->
+  <div class="space-y-6">
     {% for pengaduan in pengaduans %}
-    <img src="{{ pengaduan.foto.url }}" alt="">
-    <tr>
-      <td>{{ pengaduan.isi_aduan }}</td>
-      <td>{{ pengaduan.get_status_display }}</td>
-      <td>{{ pengaduan.user.username }}</td>
-      <td>{{ pengaduan.tgl_pengaduan }}</td>
-      <td>{{ pengaduan.dinas.nama }}</td>
-      <td>{{ pengaduan.jenis_laporan }}</td>
-      <td>
-        <a href="{% url 'petugas:tanggapan_selesai' pengaduan_id=pengaduan.id %}">
-          Tolak
-        </a>
-      </td>
-    </tr>
+    <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row gap-6 mb-6">
+      <!-- Left Side: Image -->
+      <div class="w-full md:w-1/4">
+        <img src="{{ pengaduan.foto.url }}" alt="Foto Aduan" class="w-full h-48 object-cover rounded-md shadow-sm">
+      </div>
+
+      <!-- Right Side: Information -->
+      <div class="flex-1">
+        <p class="text-xl font-semibold text-gray-900 mb-2">{{ pengaduan.isi_aduan|safe }}</p>
+        <p class="text-gray-700 mb-1"><strong>Status:</strong> {{ pengaduan.get_status_display }}</p>
+        <p class="text-gray-700 mb-1"><strong>Pengadu:</strong> {{ pengaduan.user.username }}</p>
+        <p class="text-gray-700 mb-1"><strong>Tanggal Pengaduan:</strong> {{ pengaduan.tgl_pengaduan }}</p>
+        <p class="text-gray-700 mb-1"><strong>Instansi:</strong> {{ pengaduan.dinas.nama }}</p>
+        <p class="text-gray-700 mb-4"><strong>Jenis Laporan:</strong> {{ pengaduan.jenis_laporan }}</p>
+
+        <!-- Action Button -->
+        <div class="flex justify-end">
+          <a href="{% url 'petugas:tanggapan_selesai' pengaduan_id=pengaduan.id %}" 
+             class="bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition duration-300 ease-in-out">
+            Tolak
+          </a>
+        </div>
+      </div>
+    </div>
     {% endfor %}
-  </tbody>
-</table>
+  </div>
+</div>
 
 {% endblock %}

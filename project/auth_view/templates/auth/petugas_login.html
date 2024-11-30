@@ -1,27 +1,65 @@
-{% include 'base.html' %}
+{% extends 'base.html' %}
 
 {% block contents %}
-<h1>Login</h1>
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-semibold text-center text-gray-900 mb-8">
+    Login Petugas
+  </h1>
 
-<!-- Menampilkan pesan error jika ada -->
-{% if messages %}
-  <div class="alert alert-danger">
-    <ul>
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
+  <form
+    action=""
+    method="post"
+    class="bg-white p-8 rounded-lg shadow-lg max-w-sm mx-auto space-y-6"
+  >
+    {% csrf_token %}
 
-<form action="" method="post">
-  {% csrf_token %}
-  
-  <!-- Menampilkan form input -->
-  {{ form.as_p }}
+    <div class="space-y-4 relative right-2">
+      <div>
+        <label for="username" class="block text-lg font-medium text-gray-700 mb-2">
+          Username
+        </label>
+        {{ form.username }}
+        {% if form.username.errors %}
+        <div class="text-sm text-red-600 mt-1">
+          {% for error in form.username.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
 
-  <button type="submit">Login Petugas</button>
-</form>
+      <div>
+        <label for="password" class="block text-lg font-medium text-gray-700 mb-2">
+          Password
+        </label>
+        {{ form.password }}
+        {% if form.password.errors %}
+        <div class="text-sm text-red-600 mt-1">
+          {% for error in form.password.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
 
-<p>Belum punya akun? <a href="{% url 'auth:petugas_register' %}">Register</a></p>
-{% endblock contents %}
+      <div class="text-sm text-red-600">
+        {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full bg-lime-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-lime-700 transition duration-300 ease-in-out"
+    >
+      Login Petugas
+    </button>
+  </form>
+
+  <p class="text-center mt-4 text-gray-600">
+    Belum punya akun? 
+    <a href="{% url 'auth:petugas_register' %}" class="text-lime-600 hover:text-lime-700">Register</a>
+  </p>
+</div>
+{% endblock %}
