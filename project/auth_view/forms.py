@@ -4,10 +4,61 @@ from petugas_view.models import Petugas
 from dinas_view.models import Dinas
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
+class MasyarakatLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full py-2 px-4',
+            'placeholder': 'Masukkan username'
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full py-2 px-4',
+            'placeholder': 'Masukkan password'
+        })
+    )
+
 class MasyarakatCreationForm(UserCreationForm):
     class Meta:
         model = Masyarakat
         fields = ('username', 'password1', 'password2', 'alamat', 'kecamatan', 'telp')
+    
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full mt-1',
+            'placeholder': 'Masukkan username'
+        })
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full mt-1',
+            'placeholder': 'Masukkan password'
+        })
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full mt-1',
+            'placeholder': 'Konfirmasi password'
+        })
+    )
+    alamat = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full mt-1',
+            'placeholder': 'Masukkan alamat'
+        })
+    )
+    kecamatan = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full mt-1',
+            'placeholder': 'Masukkan kecamatan'
+        })
+    )
+    telp = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full mt-1',
+            'placeholder': 'Masukkan nomor telepon'
+        })
+    )
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
@@ -55,7 +106,7 @@ class PetugasCreationForm(UserCreationForm):
     dinas = forms.ModelChoiceField(
         queryset=Dinas.objects.all(),
         widget=forms.Select(attrs={
-            'class': 'form-input rounded-md border-gray-300 w-full', 
+            'class': 'form-input rounded-md border-gray-300 w-full',
         }),
         empty_label="Pilih Instansi"
     )

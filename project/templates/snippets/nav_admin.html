@@ -18,7 +18,7 @@
       
       <form action="{% url 'auth:petugas_logout' %}" method="post" class="inline">
         {% csrf_token %}
-        <button type="submit" class="bg-red-500 text-white px-6 py-2 rounded-full shadow-md hover:bg-red-600 transition duration-300 ease-in-out">
+        <button type="submit" class="bg-red-500 text-white px-3 py-2 text-sm rounded-md shadow-md hover:bg-red-600 transition duration-300 ease-in-out">
           Logout
         </button>
       </form>

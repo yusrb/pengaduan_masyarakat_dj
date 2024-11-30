@@ -1,28 +1,56 @@
 {% include 'base.html' %}
 
 {% block contents %}
-<form action="{% url 'auth:user_logout' %}" method="post">
-  {% csrf_token %}
-  <button type="submit">Logout</button>
-</form>
+  <div class="bg-lime-200 min-h-screen py-8">
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg">
+      
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-semibold text-gray-900">Dashboard User</h1>
+        <p class="mt-2 text-lg text-gray-700">Hallo {{ request.user }}</p>
+      </div>
 
-<a href="{% url 'masyarakat:user_dashboard' %}">Dashboard</a>
-<a href="{% url 'masyarakat:pengaduan_history' %}">Riwayat Laporan</a>
+      <div class="mb-6">
+        <form action="{% url 'auth:user_logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="w-full bg-lime-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-lime-700 transition duration-300 ease-in-out">
+            Logout
+          </button>
+        </form>
+      </div>
 
-<h1>Dashboard User</h1>
+      <div class="mb-6">
+        <a href="{% url 'masyarakat:user_dashboard' %}" class="text-lime-600 hover:text-lime-700 text-lg font-medium block mb-2">
+          Dashboard
+        </a>
+        <a href="{% url 'masyarakat:pengaduan_history' %}" class="text-lime-600 hover:text-lime-700 text-lg font-medium block mb-2">
+          Riwayat Laporan
+        </a>
+      </div>
 
-<p>Hallo {{request.user}}</p>
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900">Pilih Jenis Laporan</h2>
+        <div class="space-y-4 mt-4">
+          {% for jenis_lap in jenis_laps %}
+            <a href="{% url 'masyarakat:pengaduan_create' jenis_lap.id %}" class="block text-lime-600 hover:text-lime-700 text-lg font-medium">
+              {{ jenis_lap.jenis }}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
 
-{% for jenis_lap in jenis_laps %}
-<a href="{% url 'masyarakat:pengaduan_create' jenis_lap.id %}">{{jenis_lap.jenis}}</a>
-{% endfor %}
+      <div class="mt-8">
+        <h2 class="text-2xl font-semibold text-gray-900">Telepon Darurat</h2>
+        <p class="mt-2 text-lg text-gray-700">Hubungi nomor dibawah ini jika keadaan sedang darurat</p>
+        <div class="mt-4 space-y-4">
+          {% for dinas in dinas_all %}
+            <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+              <p class="text-xl font-medium text-gray-800">{{ dinas.nama }}</p>
+              <p class="text-lg text-gray-600">{{ dinas.telp }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
 
-<h1>Telepon Darurat</h1>
-<p>Hubungi nomor dibawah ini jika keadaan sedang darurat</p>
-
-{% for dinas in dinas_all %}
-<p>{{dinas.nama}}</p>
-<p>{{dinas.telp}}</p>
-{% endfor %}
-{% endblock contents %}
-
+    </div>
+  </div>
+{% endblock %}

@@ -852,6 +852,14 @@ select {
   margin-top: 0.25rem;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
 .block {
   display: block;
 }
@@ -898,6 +906,10 @@ select {
 
 .h-24 {
   height: 6rem;
+}
+
+.min-h-screen {
+  min-height: 100vh;
 }
 
 .w-60 {
@@ -1350,6 +1362,11 @@ select {
   padding-bottom: 1.5rem;
 }
 
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .pt-0 {
   padding-top: 0px;
 }
@@ -1360,6 +1377,46 @@ select {
 
 .pt-1 {
   padding-top: 0.25rem;
+}
+
+.pt-\[1px\] {
+  padding-top: 1px;
+}
+
+.pb-5 {
+  padding-bottom: 1.25rem;
+}
+
+.pb-3 {
+  padding-bottom: 0.75rem;
+}
+
+.pt-\[2px\] {
+  padding-top: 2px;
+}
+
+.pt-\[3px\] {
+  padding-top: 3px;
+}
+
+.pb-6 {
+  padding-bottom: 1.5rem;
+}
+
+.pt-\[6px\] {
+  padding-top: 6px;
+}
+
+.pt-\[8px\] {
+  padding-top: 8px;
+}
+
+.pt-8 {
+  padding-top: 2rem;
+}
+
+.pt-7 {
+  padding-top: 1.75rem;
 }
 
 .text-left {

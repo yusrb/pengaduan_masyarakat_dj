@@ -19,6 +19,7 @@ from petugas_view.models import (
 )
 
 from .forms import (
+  MasyarakatLoginForm,
   MasyarakatCreationForm,
   PetugasCreationForm,
   PetugasLoginForm,
@@ -26,6 +27,7 @@ from .forms import (
 
 class UserLoginView(LoginView):
   model = Masyarakat
+  form_class = MasyarakatLoginForm
   template_name = 'auth/user_login.html'
 
   def get(self, request):

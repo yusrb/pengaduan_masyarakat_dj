@@ -1,15 +1,91 @@
 {% include 'base.html' %}
 
 {% block contents %}
-<h1>Register Page</h1>
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl font-semibold text-center text-gray-900 mb-6">Register Masyarakat</h1>
 
-<form action="" method="post">
-  {% csrf_token %}
-  {{form.as_p}}
+    <form action="" method="post" class="bg-white px-8 pb-5 pt-[1px] rounded-lg shadow-md max-w-md mx-auto space-y-4">
+      {% csrf_token %}
 
-  <button type="submit">Register</button>
-</form>
+      <div>
+        <label for="id_username" class="block text-lg font-medium text-gray-700">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="text-sm text-red-600">
+            {% for error in form.username.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
 
-<p>Sudah punya Akun? <a href="{% url 'auth:user_login' %}">Login</a></p>
-{% endblock contents %}
+      <div>
+        <label for="id_password1" class="block text-lg font-medium text-gray-700">Password</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+          <div class="text-sm text-red-600">
+            {% for error in form.password1.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
 
+      <div>
+        <label for="id_password2" class="block text-lg font-medium text-gray-700">Confirm Password</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+          <div class="text-sm text-red-600">
+            {% for error in form.password2.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div>
+        <label for="id_alamat" class="block text-lg font-medium text-gray-700">Alamat</label>
+        {{ form.alamat }}
+        {% if form.alamat.errors %}
+          <div class="text-sm text-red-600">
+            {% for error in form.alamat.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div>
+        <label for="id_kecamatan" class="block text-lg font-medium text-gray-700">Kecamatan</label>
+        {{ form.kecamatan }}
+        {% if form.kecamatan.errors %}
+          <div class="text-sm text-red-600">
+            {% for error in form.kecamatan.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div>
+        <label for="id_telp" class="block text-lg font-medium text-gray-700">Telepon</label>
+        {{ form.telp }}
+        {% if form.telp.errors %}
+          <div class="text-sm text-red-600">
+            {% for error in form.telp.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="w-full bg-lime-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-lime-700 transition duration-300 ease-in-out">
+        Register Masyarakat
+      </button>
+    </form>
+
+    <p class="text-center mt-4 text-gray-600">
+      Sudah punya akun? <a href="{% url 'auth:user_login' %}" class="text-lime-600 hover:text-lime-700">Login</a>
+    </p>
+  </div>
+{% endblock %}
