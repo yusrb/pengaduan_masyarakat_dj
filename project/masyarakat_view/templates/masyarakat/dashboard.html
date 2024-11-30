@@ -1,56 +1,41 @@
 {% include 'base.html' %}
 
 {% block contents %}
-  <div class="bg-lime-200 min-h-screen py-8">
-    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg">
-      
-      <div class="text-center mb-6">
-        <h1 class="text-3xl font-semibold text-gray-900">Dashboard User</h1>
-        <p class="mt-2 text-lg text-gray-700">Hallo {{ request.user }}</p>
-      </div>
 
-      <div class="mb-6">
-        <form action="{% url 'auth:user_logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="w-full bg-lime-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-lime-700 transition duration-300 ease-in-out">
-            Logout
-          </button>
-        </form>
-      </div>
+<div class="bg-lime-200 min-h-screen py-8">
+  {% include 'snippets/nav_user.html' %}
+  <div class="container mx-auto text-center mt-16">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8">Pilih Jenis Pelaporan:</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+      {% for jenis_lap in jenis_laps %}
+        <a href="{% url 'masyarakat:pengaduan_create' jenis_lap.id %}" class="flex items-center bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition transform hover:scale-105">
+          <img src="{{ jenis_lap.foto.url }}" alt="{{ jenis_lap.jenis }}" class="w-16 h-16 mr-4">
 
-      <div class="mb-6">
-        <a href="{% url 'masyarakat:user_dashboard' %}" class="text-lime-600 hover:text-lime-700 text-lg font-medium block mb-2">
-          Dashboard
+          <p class="text-xl font-semibold text-gray-800">{{ jenis_lap.jenis }}</p>
         </a>
-        <a href="{% url 'masyarakat:pengaduan_history' %}" class="text-lime-600 hover:text-lime-700 text-lg font-medium block mb-2">
-          Riwayat Laporan
-        </a>
-      </div>
-
-      <div class="mb-6">
-        <h2 class="text-2xl font-semibold text-gray-900">Pilih Jenis Laporan</h2>
-        <div class="space-y-4 mt-4">
-          {% for jenis_lap in jenis_laps %}
-            <a href="{% url 'masyarakat:pengaduan_create' jenis_lap.id %}" class="block text-lime-600 hover:text-lime-700 text-lg font-medium">
-              {{ jenis_lap.jenis }}
-            </a>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div class="mt-8">
-        <h2 class="text-2xl font-semibold text-gray-900">Telepon Darurat</h2>
-        <p class="mt-2 text-lg text-gray-700">Hubungi nomor dibawah ini jika keadaan sedang darurat</p>
-        <div class="mt-4 space-y-4">
-          {% for dinas in dinas_all %}
-            <div class="p-4 bg-gray-100 rounded-lg shadow-md">
-              <p class="text-xl font-medium text-gray-800">{{ dinas.nama }}</p>
-              <p class="text-lg text-gray-600">{{ dinas.telp }}</p>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-
+      {% endfor %}
     </div>
   </div>
+
+  <!-- Telepon Darurat -->
+  <div class="bg-white mt-16 py-8">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold text-lime-600 mb-4">Telepon Darurat</h2>
+      <p class="text-lg text-gray-600 mb-8">Hubungi nomor dibawah ini jika keadaan dirasa darurat</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {% for dinas in dinas_all %}
+          <div class="p-4 bg-lime-100 rounded-lg shadow-md hover:shadow-lg">
+            <p class="text-xl font-semibold text-lime-800">{{ dinas.nama }}</p>
+            <a href="tel:%{{dinas.telp}}" class="text-lg text-gray-700">{{ dinas.telp }}</a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-zinc-600 text-white text-center py-3">
+  <p>Pengaduan Masyarakat by <a href="https://github.com/yusrb" target="__blank">yusrb</a></p>
+</footer>
 {% endblock %}

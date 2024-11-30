@@ -1,0 +1,21 @@
+<!-- Navbar -->
+<nav class="bg-gradient-to-br from-lime-200 shadow-md mb-10">
+  <div class="container mx-auto flex justify-between items-center py-4 px-6 relative bottom-3">
+    <a href="{% url 'masyarakat:user_dashboard' %}" class="text-3xl font-semibold text-gray-800 hover:text-gray-900">
+      {{header}}
+    </a>
+
+    <div class="flex items-center space-x-6">
+      <a href="{% url 'masyarakat:user_dashboard' %}" class="text-lg text-gray-800 hover:text-gray-900">Home</a>
+      <a href="{% url 'masyarakat:pengaduan_history' %}" class="text-lg text-gray-800 hover:text-gray-900">
+        Riwayat Laporan
+      </a>
+      <form action="{% url 'auth:user_logout' %}" method="post" class="inline">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300 ease-in-out">
+          Logout
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>

@@ -64,6 +64,7 @@ class Masyarakat(AbstractBaseUser):
         return self.is_staff
 
 class Jenis_Laporan(models.Model):
+    foto = models.ImageField(upload_to="gambar_jenis_laporan/")
     jenis = models.CharField(max_length=32)
 
     def __str__(self):

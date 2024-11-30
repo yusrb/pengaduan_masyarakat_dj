@@ -6,6 +6,7 @@ from django.views.generic import (
   DeleteView,
 )
 from django.shortcuts import get_object_or_404, redirect
+from .forms import PengaduanForm
 from .models import (
   Masyarakat,
   Jenis_Laporan,
@@ -33,6 +34,7 @@ class UserDashboardView(ListView):
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
       context["judul"] = "Dashboard Pengaduan Masyarakat"
+      context["header"] = "Dashboard Masyarakat"
       context["dinas_all"] = Dinas.objects.all()
       return context
 
@@ -44,13 +46,14 @@ class PengaduanHistoryListView(ListView):
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
       context["judul"] = "Histori Pengaduan Page"
+      context['header'] = "Dashboard Masyarakat"
       context["pengaduans"] = Pengaduan.objects.filter(user=self.request.user.pk).order_by('-tgl_pengaduan')
       return context
 
 class PengaduanCreateView(CreateView):
     model = Pengaduan
     template_name = "masyarakat/pengaduan_form.html"
-    fields = ['isi_aduan', 'foto', 'dinas']
+    form_class = PengaduanForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

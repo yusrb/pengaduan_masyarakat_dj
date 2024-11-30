@@ -1,47 +1,91 @@
-{% include 'base.html' %}
-{% block contents %}
-<form action="{% url 'auth:user_logout' %}" method="post">
-  {% csrf_token %}
-  <button type="submit">Logout</button>
-</form>
+{% include 'base.html' %} {% block contents %}
+<div class="bg-lime-200 min-h-screen py-8">
+  {% include 'snippets/nav_user.html' %}
 
-<a href="{% url 'masyarakat:user_dashboard' %}">Dashboard</a>
-<a href="{% url 'masyarakat:pengaduan_history' %}">Riwayat Laporan</a>
+  <div class="container mx-auto text-center mt-16">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8">History Pengaduan</h2>
+  </div>
 
-<h1>History Pengaduan</h1>
+  <div class="container mx-auto">
+    <div class="space-y-8">
+      {% for pengaduan in pengaduans %}
+      <div
+        class="relative flex items-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition"
+      >
+        <div class="w-1/3">
+          <img
+            class="w-full h-60 rounded-md object-cover"
+            src="{{ pengaduan.foto.url }}"
+            alt="{{ pengaduan.isi_aduan|truncatechars:30 }}"
+          />
+        </div>
 
-{% for pengaduan in pengaduans %}
-<form action="{% url 'masyarakat:pengaduan_delete' pengaduan.pk %}" method="post" id="delete-form-{{ pengaduan.pk }}">
-  {% csrf_token %}
-  <button type="submit" onclick="return confirmDelete({{ pengaduan.pk }})">X</button>
-</form>
+        <div class="w-2/3 ml-6">
+          <p class="text-gray-700 text-lg">
+            <span class="font-bold">Tanggal:</span> {{ pengaduan.tgl_pengaduan}}
+          </p>
+          <p class="text-gray-700 text-lg">
+            <span class="font-bold">Jenis Laporan:</span> {{pengaduan.jenis_laporan }}
+          </p>
+          <p class="text-gray-700 text-lg">
+            <span class="font-bold">Isi Laporan:</span> {{ pengaduan.isi_aduan}}
+          </p>
 
-<img
-  class="w-60 h-60"
-  src="{{ pengaduan.foto.url }}"
-  alt="{{ pengaduan.isi_aduan|truncatechars:30 }}"
-/>
-<p>Tanggal: {{ pengaduan.tgl_pengaduan }}</p>
-<p>Jenis Laporan: {{ pengaduan.jenis_laporan }}</p>
-<p>Isi Laporan: {{ pengaduan.isi_aduan }}</p>
+          {% if pengaduan.tanggapan_set.exists %}
+          <div class="mt-2">
+            <p class="font-bold text-gray-800">Tanggapan:</p>
+            <ul class="list-disc list-inside text-gray-700">
+              {% for tanggapan in pengaduan.tanggapan_set.all %}
+              <li>
+                {{ tanggapan.tanggapan }} - {{ tanggapan.petugas.username }} ({{tanggapan.tgl_tanggapan }})
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% else %}
+          <p class="text-gray-600 italic">Belum ada tanggapan.</p>
+          {% endif %}
 
-{% if pengaduan.tanggapan_set.exists %}
-    <ul>
-    {% for tanggapan in pengaduan.tanggapan_set.all %}
-        <li>{{ tanggapan.tanggapan }} - {{ tanggapan.petugas.username }} ({{ tanggapan.tgl_tanggapan }})</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Belum ada tanggapan.</p>
-{% endif %}
+          <p class="mt-4 text-right text-lime-700 font-semibold text-lg">
+            Status: {{ pengaduan.status }}
+          </p>
+        </div>
 
-<p>Status: {{ pengaduan.status }}</p>
+        <div class="absolute top-0 right-0 p-4">
+          <form
+            action="{% url 'masyarakat:pengaduan_delete' pengaduan.pk %}"
+            method="post"
+            id="delete-form-{{ pengaduan.pk }}"
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              onclick="return confirmDelete({{ pengaduan.pk }})"
+              class="text-red-600 font-bold hover:text-red-800 transition"
+              title="Hapus Pengaduan"
+            >
+              ✕
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
-{% endfor %}
+<footer class="bg-zinc-600 text-white text-center py-3 mt-10">
+  <p>
+    Pengaduan Masyarakat by
+    <a href="https://github.com/yusrb" target="__blank" class="underline"
+      >yusrb</a
+    >
+  </p>
+</footer>
 
 <script>
   function confirmDelete(pengaduanId) {
     return confirm("Apakah Anda yakin ingin menghapus pengaduan ini?");
   }
 </script>
-{% endblock contents %}
+{% endblock %}

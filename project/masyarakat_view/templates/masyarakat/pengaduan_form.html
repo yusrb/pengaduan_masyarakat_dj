@@ -1,15 +1,57 @@
-{% include 'base.html' %}
+{% include 'base.html' %} {% block contents %}
+<div class="text-center mt-8">
+  <h1 class="text-3xl font-semibold text-gray-800">Buat Pengaduan</h1>
+</div>
 
-{% block contents %}
-<h1>Create Pengaduan</h1>
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-md mt-8">
+  <div class="w-full text-center bg-lime-100 p-4 rounded-md mb-6">
+    <p class="text-xl font-semibold text-lime-800">{{ jenis_laporan.jenis }}</p>
+  </div>
 
-<p>Jenis Laporan: {{ jenis_laporan.jenis }}</p>
+  <hr class="border-t-8 rounded-lg border-lime-500 my-3">
 
-<form action="" method="post" enctype='multipart/form-data'>
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Create</button>
-</form>
+  <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+    {% csrf_token %}
 
-<a href="{% url 'masyarakat:user_dashboard' %}">Kembali</a>
-{% endblock contents %}
+    <div>
+      <label
+        for="isi_aduan"
+        class="block text-lg font-semibold text-gray-700 mb-2"
+        >Isi Aduan</label
+      >
+      {{ form.isi_aduan }}
+    </div>
+
+    <div>
+      <label for="foto" class="block text-lg font-semibold text-gray-700 mb-2"
+        >Foto (Optional)</label
+      >
+      {{ form.foto }}
+    </div>
+
+    <div>
+      <label for="dinas" class="block text-lg font-semibold text-gray-700 mb-2"
+        >Pilih Dinas</label
+      >
+      {{ form.dinas }}
+    </div>
+
+    <div>
+      <button
+        type="submit"
+        class="w-full bg-lime-500 text-white font-bold py-2 rounded-md hover:bg-lime-600 transition"
+      >
+        Kirim Pengaduan
+      </button>
+    </div>
+  </form>
+
+  <div class="mt-6 text-center">
+    <a
+      href="{% url 'masyarakat:user_dashboard' %}"
+      class="text-lime-500 hover:underline"
+      >Kembali ke Dashboard</a
+    >
+  </div>
+</div>
+{% endblock %}

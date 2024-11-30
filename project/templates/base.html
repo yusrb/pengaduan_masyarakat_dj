@@ -1,14 +1,15 @@
-{% load static tailwind_tags %}
+{% load static tailwind_tags %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{judul}}</title>
-  {% tailwind_css %}
-</head>
-<body class="bg-lime-200">
-    {% block contents %}
-    {% endblock contents %}
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{judul}}</title>
+    <link rel="shortcut icon" href="{% static 'img/knight_favicon.png' %}" type="image/x-icon" />
+    {% tailwind_css %}
+  </head>
+  <body class="bg-lime-200">
+    {% block contents %} {% endblock contents %}
+  </body>
 </html>
