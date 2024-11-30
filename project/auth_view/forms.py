@@ -22,4 +22,4 @@ class PetugasLoginForm(AuthenticationForm):
 class PetugasCreationForm(UserCreationForm):
     class Meta:
         model = Petugas
-        fields = ['nama', 'username', 'telp', 'level', 'dinas']
+        fields = ['nama', 'username', 'telp', 'dinas']

@@ -232,6 +232,11 @@ class TanggapanTolakView(UpdateView):
     context_object_name = 'pengaduan'
     form_class = TanggapanForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["judul"] = "Validasi Kembali Page"
+        return context
+
     def get_object(self):
         pengaduan = get_object_or_404(Pengaduan, id=self.kwargs['pengaduan_id'], status=Pengaduan.Status.TOLAK)
         return pengaduan
@@ -239,8 +244,9 @@ class TanggapanTolakView(UpdateView):
     def form_valid(self, form):
         pengaduan = form.save(commit=False)
         pengaduan.status = Pengaduan.Status.SELESAI
+        pengaduan.petugas = self.request.user
         pengaduan.save()
-        return redirect('petugas:pengaduan_tolak')
+        return redirect('petugas:pengaduan_tolak_view')
 
 class TanggapanSelesaiCreateView(CreateView):
     model = Tanggapan
@@ -248,12 +254,9 @@ class TanggapanSelesaiCreateView(CreateView):
     template_name = 'petugas/tanggapan_form.html'
 
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated and self.request.user.level == 'petugas':
+        if self.request.user.is_authenticated and self.request.user.level == 'petugas' or self.request.user.level == 'admin':
             pengaduan_id = self.kwargs.get('pengaduan_id')
             pengaduan = get_object_or_404(Pengaduan, pk=pengaduan_id)
-
-            if pengaduan.status != Pengaduan.Status.SELESAI:
-                return redirect('petugas:petugas_dashboard')
 
             return super().get(request, *args, **kwargs)
         else:
@@ -266,6 +269,7 @@ class TanggapanSelesaiCreateView(CreateView):
         pengaduan = get_object_or_404(Pengaduan, pk=pengaduan_id)
 
         tanggapan.pengaduan = pengaduan
+        pengaduan.petugas = self.request.user
         tanggapan.petugas = self.request.user
 
         pengaduan.status = Pengaduan.Status.TOLAK
@@ -279,13 +283,13 @@ class TanggapanSelesaiCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy('petugas:petugas_dashboard')
 
-def buat_pengaduan_dokumen(request, pengaduan_id):
-  pengaduan = get_object_or_404(Pengaduan, id=pengaduan_id)
+def buat_pengaduan_dokumen(request):
+    pengaduans = Pengaduan.objects.filter(status='SELESAI')
+    html_content = render_to_string('petugas/pengaduan_docs.html', {
+        'pengaduans': pengaduans,
+    })
+    pdf = HTML(string=html_content).write_pdf()
 
-  html_content = render_to_string('petugas/pengaduan_docs.html', {'pengaduan' : pengaduan})
-
-  pdf = HTML(string = html_content).write_pdf()
-
-  response = HttpResponse(pdf, content_type='application/pdf')
-  response['Content-Disposition'] = f'attachment; filename="pengaduan_{pengaduan.id}.pdf"'
-  return response
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="laporan_pengaduan_selesai.pdf"'
+    return response

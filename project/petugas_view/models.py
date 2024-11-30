@@ -22,9 +22,9 @@ class Petugas(AbstractBaseUser):
     nama = models.CharField(max_length=35)
     username = models.CharField(max_length=25, unique=True)
     password = models.CharField(max_length=128)
-    level = models.CharField(max_length=10, choices=[('admin', 'Admin'), ('petugas', 'Petugas')])
-    telp = models.IntegerField(max_length=13)
-    dinas = models.ForeignKey('dinas_view.Dinas', on_delete=models.CASCADE, default="Departemen Iserk", blank=True, null=True)
+    level = models.CharField(max_length=10, choices=[('admin', 'Admin'), ('petugas', 'Petugas')], default='petugas', null=True, blank=True)
+    telp = models.CharField(max_length=13)
+    dinas = models.ForeignKey('dinas_view.Dinas', on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -61,13 +61,16 @@ class Petugas(AbstractBaseUser):
 
 class Log_Aktivitas(models.Model):
   petugas = models.ForeignKey(Petugas, on_delete=models.CASCADE)
-  aktifitas = models.DateField(auto_now=True)
+  aktifitas = models.CharField(max_length=255)
   tanggal = models.DateTimeField(default=timezone.now())
 
   class Meta:
     verbose_name = "Log Aktifitas"
     verbose_name_plural = "Log Aktifitas"
     ordering = ['-tanggal']
+
+  def __str__(self):
+    return f"Petugas: {self.petugas}, Aktivitas: {self.aktifitas}, Tanggal: {self.tanggal.strftime('%Y-%m-%d %H:%M:%S')}"
 
 class Tanggapan(models.Model):
   pengaduan = models.ForeignKey('masyarakat_view.Pengaduan', on_delete=models.CASCADE)

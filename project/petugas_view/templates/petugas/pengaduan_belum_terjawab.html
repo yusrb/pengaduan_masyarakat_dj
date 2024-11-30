@@ -31,6 +31,9 @@
           href="{% url 'petugas:tanggapan_belum_terjawab' pengaduan_id=pengaduan.id %}"
           >Berikan Tanggapan</a
         >
+        <a href="{% url 'petugas:tanggapan_selesai' pengaduan_id=pengaduan.id %}">
+          Tolak
+        </a>
       </td>
     </tr>
     {% endfor %}
