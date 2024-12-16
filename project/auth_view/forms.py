@@ -21,24 +21,12 @@ class MasyarakatLoginForm(AuthenticationForm):
 class MasyarakatCreationForm(UserCreationForm):
     class Meta:
         model = Masyarakat
-        fields = ('username', 'password1', 'password2', 'alamat', 'kecamatan', 'telp')
-    
+        fields = ('username', 'alamat', 'kecamatan', 'telp', 'password1', 'password2',)
+
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-input rounded-md border-gray-300 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-lime-500',
             'placeholder': 'Masukkan username'
-        })
-    )
-    password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-input rounded-md border-gray-300 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-lime-500',
-            'placeholder': 'Masukkan password'
-        })
-    )
-    password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-input rounded-md border-gray-300 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-lime-500',
-            'placeholder': 'Konfirmasi password'
         })
     )
     alamat = forms.CharField(
@@ -57,6 +45,18 @@ class MasyarakatCreationForm(UserCreationForm):
         widget=forms.TextInput(attrs={
             'class': 'form-input rounded-md border-gray-300 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-lime-500',
             'placeholder': 'Masukkan nomor telepon'
+        })
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-lime-500',
+            'placeholder': 'Masukkan password'
+        })
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-input rounded-md border-gray-300 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-lime-500',
+            'placeholder': 'Konfirmasi password'
         })
     )
 

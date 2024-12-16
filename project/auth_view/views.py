@@ -76,6 +76,7 @@ class UserLogoutView(LogoutView):
 
 class PetugasLoginView(LoginView):
     template_name = 'auth/petugas_login.html'
+    form_class = MasyarakatLoginForm
 
     def get(self, request):
       if self.request.user.is_authenticated:
